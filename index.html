@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thaari Solutions | Unified Retail, AI Visual Search &amp; 3D Fitting Platform</title>
+
+  <link rel="icon" type="image/png" href="images/main/favicon.png" />
+  <link rel="stylesheet" href="global.css" />
+
+  <!-- Page-specific styles -->
+  <style>
+    /* Action Buttons */
+    .btn-action-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      background-color: var(--color-primary-light);
+      border: 1.5px solid #818CF8;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.1);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .btn-action-outline svg {
+      transition: transform 0.25s ease;
+    }
+
+    .btn-action-outline:hover {
+      background-color: var(--color-primary);
+      color: #FFFFFF;
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .btn-action-outline:hover svg {
+      transform: translateX(4px);
+    }
+
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      background-color: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.05);
+      transition: all 0.25s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      background-color: #F8FAFC;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      padding-top: clamp(2.75rem, 5vw, 4.5rem);
+      padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(79, 70, 229, 0.09) 0%, transparent 40%),
+        radial-gradient(circle at 92% 18%, rgba(14, 165, 233, 0.09) 0%, transparent 42%),
+        linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3.25rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.25rem;
+      color: var(--text-primary);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .hero-partner-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 1.75rem;
+      padding: 0.55rem 1rem;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-pill);
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .hero-partner-pill strong {
+      color: var(--text-primary);
+    }
+
+    /* Product UI Mockup Frames */
+    .ui-window {
+      background: #0F172A;
+      border-radius: var(--radius-lg);
+      border: 1px solid #334155;
+      box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ui-window-header {
+      background: #1E293B;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+    }
+
+    .ui-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .ui-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .ui-window-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #CBD5E1;
+      letter-spacing: 0.02em;
+    }
+
+    .ui-status-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      background: rgba(16, 185, 129, 0.15);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .ui-window-body {
+      padding: 1.25rem;
+      background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%);
+      color: #F8FAFC;
+      position: relative;
+    }
+
+    /* Custom media override layer */
+    .custom-media-img {
+      width: 100%;
+      height: auto;
+      display: none;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Interactive UI preview widgets */
+    .mockup-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    .mockup-panel {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid #334155;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+
+    .mockup-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94A3B8;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .match-badge-green {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .match-badge-blue {
+      background: rgba(14, 165, 233, 0.2);
+      color: #38BDF8;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .stock-branch-row {
+      margin-bottom: 0.65rem;
+    }
+
+    .stock-branch-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .stock-branch-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #E2E8F0;
+      margin-bottom: 0.3rem;
+    }
+
+    .stock-bar-track {
+      height: 7px;
+      background: #0F172A;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .stock-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, #4F46E5, #0EA5E9);
+    }
+
+    @keyframes pulseScan {
+      0%, 100% { transform: translateY(0%); opacity: 0.4; }
+      50% { transform: translateY(100%); opacity: 0.95; }
+    }
+
+    .scan-box {
+      position: relative;
+      background: #0F172A;
+      border: 1px dashed #475569;
+      border-radius: var(--radius-sm);
+      padding: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      overflow: hidden;
+    }
+
+    .scan-beam {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #38BDF8, transparent);
+      animation: pulseScan 3.2s ease-in-out infinite;
+    }
+
+    .garment-thumb {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    /* Value Pillars Grid */
+    .pillar-grid {
+      margin-top: 3.25rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .pillar-card {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-primary);
+    }
+
+    .pillar-top {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .pillar-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pillar-title {
+      font-family: var(--font-heading);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .pillar-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Feature & Role Cards */
+    .elevated-card {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-top: 4px solid var(--color-primary);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.07);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .elevated-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 36px -8px rgba(79, 70, 229, 0.15);
+      border-color: #818CF8;
+      border-top-color: var(--color-primary);
+    }
+
+    .elevated-card.accent-cyan {
+      border-top-color: var(--color-accent);
+    }
+
+    .elevated-card.accent-emerald {
+      border-top-color: var(--color-success);
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-role-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: #F1F5F9;
+      color: #334155;
+    }
+
+    .card-feature-list {
+      margin-top: auto;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-light);
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .card-feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .card-feature-list svg {
+      color: var(--color-success);
+      flex-shrink: 0;
+    }
+
+    /* Capability Showcase Sections */
+    .showcase-row {
+      padding-block: 2.75rem;
+    }
+
+    .showcase-row + .showcase-row {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .benefit-list {
+      margin: 1.5rem 0 2rem;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .benefit-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .benefit-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--color-primary-light);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* Partner Highlight Metrics */
+    .pilot-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .pilot-stat-box {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-align: left;
+    }
+
+    .pilot-stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94A3B8;
+      margin-bottom: 0.35rem;
+    }
+
+    .pilot-stat-value {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .reveal-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .pillar-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pilot-meta-grid {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .pillar-grid,
+      .mockup-grid-2,
+      .pilot-meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Site Navigation -->
+    <header class="navbar">
+      <div class="container navbar-container">
+        <a href="index.html" class="brand-logo">
+          <img src="images/main/logo.png" alt="Thaari Solutions Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <span class="brand-logo-mark" style="display: none;">T</span>
+          <span>Thaari Solutions</span>
+        </a>
+
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="features.html" class="nav-link">Platform Features</a></li>
+            <li><a href="tour.html" class="nav-link">Product Tour</a></li>
+            <li><a href="team.html" class="nav-link">Our Team</a></li>
+            <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="contact.html" class="btn btn-primary">Request a Demo</a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-grid">
+            <!-- Value Proposition -->
+            <div>
+              <span class="badge badge-live">Unified Apparel Retail Platform</span>
+              <h1 class="hero-title">
+                Connect Every Store Branch with <span class="text-gradient">AI-Driven Retail</span>
+              </h1>
+              <p class="text-lead">
+                Unify your physical POS billing counters, multi-branch stock, online store, AI photo search, and 3D virtual fitting room into one effortless platform built for clothing brands.
+              </p>
+
+              <div class="hero-actions">
+                <a href="tour.html" class="btn btn-primary" style="padding: 0.85rem 1.65rem;">
+                  Explore Interactive Tour
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+                <a href="features.html" class="btn-hero-secondary">
+                  Discover Platform Features
+                </a>
+              </div>
+
+              <div class="hero-partner-pill">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>Designed with <strong id="heroPilotPartner">Jenitas Exclusive Brands</strong> (Kotte &amp; Bandarawela)</span>
+              </div>
+            </div>
+
+            <!-- Command Center UI Preview -->
+            <div class="ui-window">
+              <div class="ui-window-header">
+                <div class="ui-dots">
+                  <span class="ui-dot" style="background: #EF4444;"></span>
+                  <span class="ui-dot" style="background: #F59E0B;"></span>
+                  <span class="ui-dot" style="background: #10B981;"></span>
+                </div>
+                <span class="ui-window-label">Thaari Retail Command Center</span>
+                <span class="ui-status-tag">Live Sync Active</span>
+              </div>
+
+              <div class="ui-window-body">
+                <!-- Media override with built-in UI fallback -->
+                <img
+                  src="images/home/hero-dashboard.png"
+                  alt="Thaari Solutions Command Center"
+                  class="custom-media-img"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+
+                <div>
+                  <div class="mockup-panel" style="margin-bottom: 0.9rem;">
+                    <div class="mockup-panel-header">
+                      <span>AI Visual Search Match</span>
+                      <span class="match-badge-green">96% Exact Match</span>
+                    </div>
+                    <div class="scan-box">
+                      <div class="scan-beam"></div>
+                      <div class="garment-thumb">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+                        </svg>
+                      </div>
+                      <div style="flex: 1;">
+                        <div style="font-weight: 700; font-size: 0.9rem; color: #FFFFFF;">Pleated Linen Midi Dress</div>
+                        <div style="font-size: 0.78rem; color: #94A3B8;">Matched from customer social screenshot &bull; Rs. 6,850</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mockup-grid-2">
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header">
+                        <span>Multi-Branch Stock</span>
+                      </div>
+                      <div class="stock-branch-row">
+                        <div class="stock-branch-top">
+                          <span>Kotte Branch</span>
+                          <span style="color: #34D399;">14 Units</span>
+                        </div>
+                        <div class="stock-bar-track">
+                          <div class="stock-bar-fill" style="width: 82%;"></div>
+                        </div>
+                      </div>
+                      <div class="stock-branch-row">
+                        <div class="stock-branch-top">
+                          <span>Bandarawela</span>
+                          <span style="color: #38BDF8;">9 Units</span>
+                        </div>
+                        <div class="stock-bar-track">
+                          <div class="stock-bar-fill" style="width: 60%;"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header">
+                        <span>3D Smart Fitting</span>
+                        <span class="match-badge-blue">Size M</span>
+                      </div>
+                      <div style="font-size: 0.82rem; color: #E2E8F0; font-weight: 600; margin-bottom: 0.35rem;">
+                        Regular Fit Recommended
+                      </div>
+                      <div style="font-size: 0.75rem; color: #94A3B8; line-height: 1.45;">
+                        Comfortably fits 92 cm chest &amp; 76 cm waist. 3 matching outfit items available.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Core Value Pillars -->
+          <div class="pillar-grid">
+            <div class="pillar-card">
+              <div class="pillar-top">
+                <div class="pillar-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </div>
+                <span class="pillar-title">AI Photo Search</span>
+              </div>
+              <p class="pillar-desc">Shoppers upload outfit photos to immediately find matching items in your store.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-top">
+                <div class="pillar-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+                  </svg>
+                </div>
+                <span class="pillar-title">3D Virtual Fitting</span>
+              </div>
+              <p class="pillar-desc">Interactive body-measurement sizing and complete outfit coordination.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-top">
+                <div class="pillar-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                  </svg>
+                </div>
+                <span class="pillar-title">Live Branch Sync</span>
+              </div>
+              <p class="pillar-desc">Real-time inventory updates across every branch counter and online checkout.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-top">
+                <div class="pillar-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                </div>
+                <span class="pillar-title">Click-and-Try</span>
+              </div>
+              <p class="pillar-desc">Customers reserve garments online to try on in their nearest branch fitting room.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Retail Challenges Section -->
+      <section class="section section-subtle">
+        <div class="container">
+          <div class="section-header reveal-item">
+            <span class="badge">The Retail Challenge</span>
+            <h2 class="heading-lg">Why Growing Clothing Brands Need a Unified System</h2>
+            <p class="text-lead">
+              Managing multiple store locations with separate billing counters and disconnected online catalogs creates daily friction for both staff and shoppers.
+            </p>
+          </div>
+
+          <div class="grid-2 reveal-item" style="gap: 2rem;">
+            <div class="elevated-card">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Inventory Gap</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.6rem;">Disconnected Branch Stock</h3>
+              <p>
+                When billing and inventory records are isolated by location, cashiers cannot check availability at sister branches and online shoppers risk ordering out-of-stock sizes.
+              </p>
+            </div>
+
+            <div class="elevated-card accent-cyan">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Discovery Gap</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.6rem;">Untapped Social Media Demand</h3>
+              <p>
+                Customers frequently shop with outfit screenshots from Instagram, TikTok, or Facebook, but standard text search bars cannot match photos against store inventory.
+              </p>
+            </div>
+
+            <div class="elevated-card accent-cyan">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Conversion Gap</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.6rem;">Online Fit &amp; Styling Uncertainty</h3>
+              <p>
+                Shoppers abandon carts when they are unsure how a size will fit their body measurements or how individual tops, trousers, and footwear look together as an outfit.
+              </p>
+            </div>
+
+            <div class="elevated-card accent-emerald">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Analytics Gap</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.6rem;">Invisible Buying Trends</h3>
+              <p>
+                When a customer searches for a trending style or color that your store does not carry yet, traditional platforms lose that visitor without recording what they wanted to buy.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Platform Capabilities Section -->
+      <section class="section">
+        <div class="container">
+          <div class="section-header reveal-item">
+            <span class="badge">Platform Capabilities</span>
+            <h2 class="heading-lg">Everything You Need to Modernize Apparel Retail</h2>
+            <p class="text-lead">
+              Designed from the ground up to increase online conversion, speed up counter checkout, and give store owners complete inventory visibility.
+            </p>
+          </div>
+
+          <!-- Capability: AI Visual Search -->
+          <div class="grid-2 showcase-row reveal-item">
+            <div>
+              <span class="badge">Visual Discovery</span>
+              <h3 class="heading-lg" style="margin-bottom: 1rem;">Turn Outfit Photos into Instant Store Matches</h3>
+              <p>
+                Let customers upload any fashion photo on your website or in-store kiosk to immediately discover matching or visually similar garments available across your branches.
+              </p>
+
+              <ul class="benefit-list">
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Smart Three-Tier Matching:</strong> Displays exact matches first, followed by look-alike styles and complementary items in stock.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Missed-Search Trend Tracking:</strong> Automatically records unmatched style trends so store buyers know which designs to restock next.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Privacy-First Experience:</strong> Customer photos are analyzed instantly without saving personal portraits or private images.</span>
+                </li>
+              </ul>
+
+              <a href="features.html" class="btn-action-outline">
+                <span>Explore Visual Search</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="ui-window">
+              <div class="ui-window-header">
+                <div class="ui-dots">
+                  <span class="ui-dot" style="background: #EF4444;"></span>
+                  <span class="ui-dot" style="background: #F59E0B;"></span>
+                  <span class="ui-dot" style="background: #10B981;"></span>
+                </div>
+                <span class="ui-window-label">AI Finder — Visual Search Engine</span>
+                <span class="ui-status-tag">3 Matches Found</span>
+              </div>
+              <div class="ui-window-body">
+                <img
+                  src="images/home/ai-finder-preview.gif"
+                  alt="AI Visual Search"
+                  class="custom-media-img"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div>
+                  <div class="mockup-panel" style="margin-bottom: 0.75rem;">
+                    <div class="mockup-panel-header">
+                      <span>1. Uploaded Customer Screenshot</span>
+                      <span style="color: #38BDF8;">Privacy Protected</span>
+                    </div>
+                    <div class="scan-box">
+                      <div class="scan-beam"></div>
+                      <div class="garment-thumb">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                      </div>
+                      <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">Detected: Floral Wrap Midi Dress</div>
+                        <div style="font-size: 0.75rem; color: #94A3B8;">Attributes: Emerald Floral &bull; V-Neck &bull; Casual</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mockup-grid-2">
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header">
+                        <span>Level 1: Exact</span>
+                        <span class="match-badge-green">94%</span>
+                      </div>
+                      <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">Emerald Wrap Dress</div>
+                      <div style="font-size: 0.75rem; color: #34D399; margin-top: 0.25rem;">In Stock: Kotte &amp; Bandarawela</div>
+                    </div>
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header">
+                        <span>Level 2: Similar</span>
+                        <span class="match-badge-blue">83%</span>
+                      </div>
+                      <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">Teal Botanical Midi</div>
+                      <div style="font-size: 0.75rem; color: #38BDF8; margin-top: 0.25rem;">In Stock: Kotte Branch</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability: 3D Virtual Fitting & Outfit Styling -->
+          <div class="grid-2 showcase-row reveal-item">
+            <div class="ui-window">
+              <div class="ui-window-header">
+                <div class="ui-dots">
+                  <span class="ui-dot" style="background: #EF4444;"></span>
+                  <span class="ui-dot" style="background: #F59E0B;"></span>
+                  <span class="ui-dot" style="background: #10B981;"></span>
+                </div>
+                <span class="ui-window-label">3D Virtual Fitting &amp; Outfit Studio</span>
+                <span class="ui-status-tag">360&deg; Interactive</span>
+              </div>
+              <div class="ui-window-body">
+                <img
+                  src="images/home/3d-fitting-preview.gif"
+                  alt="3D Virtual Mannequin Studio"
+                  class="custom-media-img"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div>
+                  <div class="mockup-grid-2" style="margin-bottom: 0.8rem;">
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header"><span>Body Measurements</span></div>
+                      <div class="stock-branch-row">
+                        <div class="stock-branch-top"><span>Height</span><span>170 cm</span></div>
+                        <div class="stock-bar-track"><div class="stock-bar-fill" style="width: 72%;"></div></div>
+                      </div>
+                      <div class="stock-branch-row">
+                        <div class="stock-branch-top"><span>Chest</span><span>96 cm</span></div>
+                        <div class="stock-bar-track"><div class="stock-bar-fill" style="width: 65%;"></div></div>
+                      </div>
+                      <div class="stock-branch-row">
+                        <div class="stock-branch-top"><span>Waist</span><span>80 cm</span></div>
+                        <div class="stock-bar-track"><div class="stock-bar-fill" style="width: 58%;"></div></div>
+                      </div>
+                    </div>
+
+                    <div class="mockup-panel" style="display: flex; flex-direction: column; justify-content: space-between;">
+                      <div class="mockup-panel-header">
+                        <span>Size Advice</span>
+                        <span class="match-badge-green">Size L</span>
+                      </div>
+                      <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">
+                        Comfortable Regular Fit
+                      </div>
+                      <div style="font-size: 0.75rem; color: #94A3B8; line-height: 1.4;">
+                        +4 cm chest ease allowance. Ideal drape across shoulders and waist.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mockup-panel">
+                    <div class="mockup-panel-header">
+                      <span>AI Complete Outfit Recommendation</span>
+                      <span class="match-badge-blue">92% Style Harmony</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #E2E8F0;">
+                      Paired With: <strong>Tailored Navy Chino Trousers</strong> + <strong>Tan Leather Loafers</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <span class="badge">Virtual Fitting Room</span>
+              <h3 class="heading-lg" style="margin-bottom: 1rem;">3D Mannequin Sizing &amp; Complete Outfit Styling</h3>
+              <p>
+                Give online shoppers the confidence to buy with an interactive 3D mannequin that adapts to their body measurements and suggests matching pieces from your catalog.
+              </p>
+
+              <ul class="benefit-list">
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Personalized Size Calculator:</strong> Compares customer height, chest, and waist measurements against your garment size charts for accurate fit advice.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Two-Way Outfit Recommendations:</strong> Automatically pairs shirts with matching trousers and shoes—or matches tops starting from a selected pair of pants.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>One-Click Outfit Checkout:</strong> Shoppers can add the entire coordinated look to their cart or reserve it for an in-store fitting session.</span>
+                </li>
+              </ul>
+
+              <a href="tour.html" class="btn-action-outline">
+                <span>Preview in Product Tour</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Capability: Multi-Branch POS & Click-and-Try -->
+          <div class="grid-2 showcase-row reveal-item">
+            <div>
+              <span class="badge">Omnichannel Retail</span>
+              <h3 class="heading-lg" style="margin-bottom: 1rem;">Unified Multi-Branch POS &amp; Click-and-Try</h3>
+              <p>
+                Keep every physical billing counter and your online store connected in real time, eliminating double-selling while offering flexible fulfilment options.
+              </p>
+
+              <ul class="benefit-list">
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Click-and-Try Branch Reservations:</strong> Shoppers reserve items online to try on in-store, with automatic stock release if a reservation expires.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Shared Loyalty &amp; Cross-Branch Transfers:</strong> Customers earn and redeem points both online and at the counter using their mobile number.</span>
+                </li>
+                <li>
+                  <span class="benefit-check">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Automated Inventory Alerts:</strong> Receive instant low-stock notifications and clearance discount suggestions for slow-moving stock.</span>
+                </li>
+              </ul>
+
+              <a href="features.html" class="btn-action-outline">
+                <span>See All POS Features</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="ui-window">
+              <div class="ui-window-header">
+                <div class="ui-dots">
+                  <span class="ui-dot" style="background: #EF4444;"></span>
+                  <span class="ui-dot" style="background: #F59E0B;"></span>
+                  <span class="ui-dot" style="background: #10B981;"></span>
+                </div>
+                <span class="ui-window-label">POS Counter &amp; Branch Reservation Hub</span>
+                <span class="ui-status-tag">Real-Time Sync</span>
+              </div>
+              <div class="ui-window-body">
+                <img
+                  src="images/home/pos-inventory-preview.png"
+                  alt="Multi-Branch POS Sync"
+                  class="custom-media-img"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div>
+                  <div class="mockup-panel" style="margin-bottom: 0.8rem;">
+                    <div class="mockup-panel-header">
+                      <span>Active Click-and-Try Reservation</span>
+                      <span class="match-badge-green">Hold Active</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div>
+                        <div style="font-size: 0.88rem; font-weight: 700; color: #FFFFFF;">Order #TR-4092 &bull; Kotte Fitting Room</div>
+                        <div style="font-size: 0.76rem; color: #94A3B8;">1x Linen Blazer (Size M) reserved for Customer Try-On</div>
+                      </div>
+                      <span class="match-badge-blue">03h 42m left</span>
+                    </div>
+                  </div>
+
+                  <div class="mockup-grid-2">
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header"><span>Loyalty Lookup</span></div>
+                      <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">+480 Loyalty Points</div>
+                      <div style="font-size: 0.74rem; color: #34D399; margin-top: 0.2rem;">Verified via Mobile Number</div>
+                    </div>
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-header"><span>Branch Transfer</span></div>
+                      <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">Bandarawela &rarr; Kotte</div>
+                      <div style="font-size: 0.74rem; color: #38BDF8; margin-top: 0.2rem;">2 Units Approved</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Role-Based Workspaces Section -->
+      <section class="section section-subtle">
+        <div class="container">
+          <div class="section-header reveal-item">
+            <span class="badge">One Connected Ecosystem</span>
+            <h2 class="heading-lg">Tailored Workspaces for Customers, Managers &amp; Cashiers</h2>
+            <p class="text-lead">
+              Every team member and shopper interacts with a dedicated, easy-to-use interface powered by the same live inventory data.
+            </p>
+          </div>
+
+          <div class="grid-3 reveal-item">
+            <!-- Role: Customers -->
+            <div class="elevated-card">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Web &amp; In-Store Kiosk</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.65rem;">For Customers</h3>
+              <p style="margin-bottom: 1.25rem;">
+                Browse live branch stock online or on in-store kiosks, search by outfit photo, preview sizing on the 3D mannequin, and order for delivery or in-branch try-on.
+              </p>
+              <ul class="card-feature-list">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>AI Photo Search &amp; 3D Fitting</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Click-and-Try Branch Reservations</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Online &amp; In-Shop Loyalty Rewards</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Role: Store Owners & Managers -->
+            <div class="elevated-card accent-cyan">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                  </svg>
+                </div>
+                <span class="card-role-tag">Back-Office Portal</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.65rem;">For Store Owners &amp; Managers</h3>
+              <p style="margin-bottom: 1.25rem;">
+                Manage multi-branch product catalogs, approve inter-branch stock transfers, review daily sales reports, and track customer demand from missed photo searches.
+              </p>
+              <ul class="card-feature-list">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Multi-Branch Stock &amp; Transfer Control</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Missed-Search Buying Insights</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Low-Stock &amp; Clearance Alerts</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Role: Branch Cashiers -->
+            <div class="elevated-card accent-emerald">
+              <div class="card-top-row">
+                <div class="icon-box" style="margin-bottom: 0;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="M7 15h0M2 9.5h20"></path>
+                  </svg>
+                </div>
+                <span class="card-role-tag">POS Billing Terminal</span>
+              </div>
+              <h3 class="heading-md" style="margin-bottom: 0.65rem;">For Branch Cashiers</h3>
+              <p style="margin-bottom: 1.25rem;">
+                Complete fast counter billing with automatic stock deduction, look up loyalty points by phone number, handle returns, and request stock from other branches.
+              </p>
+              <ul class="card-feature-list">
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Fast Barcode Billing &amp; Returns</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Instant Phone Loyalty Redemption</span>
+                </li>
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Sister-Branch Stock Lookup</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Industry Partner & CTA Section -->
+      <section class="section">
+        <div class="container">
+          <div class="pilot-banner reveal-item">
+            <div style="max-width: 620px;">
+              <span class="badge badge-live" style="background: rgba(255, 255, 255, 0.12); color: #FFFFFF;">
+                Industry Collaboration Partner
+              </span>
+              <h2 class="heading-lg" style="color: #FFFFFF; margin-bottom: 0.75rem;">
+                Designed in Collaboration with <span id="bannerPilotPartner">Jenitas Exclusive Brands</span>
+              </h2>
+              <p style="color: #CBD5E1; font-size: 1.02rem; margin-bottom: 1.75rem;">
+                Thaari Solutions is architected around the real-world multi-branch retail requirements of Jenitas Exclusive Brands across their <strong>Kotte</strong> and <strong>Bandarawela</strong> stores—unifying physical fitting rooms, counter billing, and digital commerce.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                <a href="contact.html" class="btn btn-primary">Request a Personalized Demo</a>
+                <a href="team.html" class="btn btn-outline" style="background: rgba(255,255,255,0.08); color: #FFFFFF; border-color: #64748B;">
+                  Meet Our Team
+                </a>
+              </div>
+            </div>
+
+            <div class="pilot-meta-grid">
+              <div class="pilot-stat-box">
+                <div class="pilot-stat-label">Partner Stores</div>
+                <div class="pilot-stat-value">Kotte &amp; Bandarawela</div>
+              </div>
+              <div class="pilot-stat-box">
+                <div class="pilot-stat-label">Retail Focus</div>
+                <div class="pilot-stat-value">Multi-Branch Apparel</div>
+              </div>
+              <div class="pilot-stat-box">
+                <div class="pilot-stat-label">Storefront &amp; POS</div>
+                <div class="pilot-stat-value">Unified Live Stock</div>
+              </div>
+              <div class="pilot-stat-box">
+                <div class="pilot-stat-label">Smart Experience</div>
+                <div class="pilot-stat-value">AI Search &amp; 3D Fit</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+              <img src="images/main/logo.png" alt="Thaari Solutions Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <span class="brand-logo-mark" style="display: none;">T</span>
+              <span>Thaari Solutions</span>
+            </a>
+            <p style="max-width: 38ch; font-size: 0.95rem;">
+              The unified omnichannel retail, AI visual search, and 3D smart fitting platform engineered for multi-branch clothing stores.
+            </p>
+
+            <div class="social-links">
+              <a href="#" data-social="linkedin" target="_blank" rel="noopener" class="social-icon-btn" aria-label="LinkedIn" title="LinkedIn">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="youtube" target="_blank" rel="noopener" class="social-icon-btn" aria-label="YouTube" title="YouTube">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="facebook" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Facebook" title="Facebook">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="whatsapp" target="_blank" rel="noopener" class="social-icon-btn" aria-label="WhatsApp" title="WhatsApp">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7 8.5 7 9.71C7 10.93 7.89 12.1 8 12.27C8.14 12.44 9.76 14.94 12.25 16C12.84 16.27 13.3 16.42 13.66 16.53C14.25 16.72 14.79 16.69 15.22 16.63C15.7 16.56 16.68 16.03 16.89 15.45C17.1 14.87 17.1 14.38 17.04 14.27C16.97 14.17 16.81 14.11 16.56 14C16.31 13.86 15.09 13.26 14.87 13.18C14.64 13.1 14.5 13.06 14.31 13.3C14.15 13.55 13.67 14.11 13.53 14.27C13.38 14.44 13.24 14.46 13 14.34C12.74 14.21 11.94 13.95 11 13.11C10.26 12.45 9.77 11.64 9.62 11.39C9.5 11.15 9.61 11 9.73 10.89C9.84 10.78 10 10.6 10.1 10.45C10.23 10.31 10.27 10.2 10.35 10.04C10.43 9.87 10.39 9.73 10.33 9.61C10.27 9.5 9.77 8.26 9.56 7.77C9.36 7.29 9.16 7.35 9 7.34C8.86 7.34 8.7 7.33 8.53 7.33Z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="email" class="social-icon-btn" aria-label="Email Us" title="Email Us">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Platform Features</a></li>
+              <li><a href="tour.html">Product Tour</a></li>
+              <li><a href="team.html">Our Team</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Direct Contact</h4>
+            <ul class="footer-links" style="font-size: 0.92rem;">
+              <li><a href="#" data-social="email" id="footerEmailText">Email Us</a></li>
+              <li><a href="#" data-social="whatsapp" target="_blank" rel="noopener" id="footerPhoneText">WhatsApp Us</a></li>
+              <li id="footerLocationText">Location</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Thaari Solutions. All rights reserved.</span>
+          <span>Industry Partner: Jenitas Exclusive Brands</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="constants.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Page-specific scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Populate partner name from site configuration
+      if (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.pilotPartner) {
+        const heroPartner = document.getElementById("heroPilotPartner");
+        const bannerPartner = document.getElementById("bannerPilotPartner");
+        if (heroPartner) heroPartner.textContent = SITE_CONFIG.pilotPartner;
+        if (bannerPartner) bannerPartner.textContent = SITE_CONFIG.pilotPartner;
+      }
+
+      // Initialize scroll reveal animations
+      const revealEls = document.querySelectorAll(".reveal-item");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+
+        revealEls.forEach(el => observer.observe(el));
+      } else {
+        revealEls.forEach(el => el.classList.add("visible"));
+      }
+    });
+  </script>
+</body>
+</html>

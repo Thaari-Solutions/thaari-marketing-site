@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thaari Solutions | Our Team</title>
+
+  <link rel="icon" type="image/png" href="images/main/favicon.png" />
+  <link rel="stylesheet" href="global.css" />
+
+  <!-- Page-specific styles -->
+  <style>
+    /* Action Buttons & Announcement Pill */
+    .btn-action-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      background-color: var(--color-primary-light);
+      border: 1.5px solid #818CF8;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.1);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .btn-action-outline svg {
+      transition: transform 0.25s ease;
+    }
+
+    .btn-action-outline:hover {
+      background-color: var(--color-primary);
+      color: #FFFFFF;
+      border-color: var(--color-primary);
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .btn-action-outline:hover svg {
+      transform: translateX(4px);
+    }
+
+    .hero-announcement {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.35rem 0.95rem 0.35rem 0.35rem;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 1.4rem;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .hero-announcement-tag {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      padding: 0.18rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Team Hero Section */
+    .team-hero {
+      padding-top: clamp(3rem, 5.5vw, 4.75rem);
+      padding-bottom: clamp(3rem, 5.5vw, 4.5rem);
+      background:
+        radial-gradient(circle at 12% 15%, rgba(79, 70, 229, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 88% 20%, rgba(14, 165, 233, 0.08) 0%, transparent 42%),
+        linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+      border-bottom: 1px solid var(--border-light);
+      text-align: center;
+    }
+
+    .team-hero-header {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .team-pillars-bar {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      text-align: left;
+    }
+
+    .team-pillar-item {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid var(--color-primary);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.35rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .team-pillar-item.accent-cyan {
+      border-left-color: var(--color-accent);
+    }
+
+    .team-pillar-item.accent-emerald {
+      border-left-color: var(--color-success);
+    }
+
+    .team-pillar-title {
+      font-family: var(--font-heading);
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .team-pillar-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.48;
+    }
+
+    /* Team Member Cards */
+    .member-card {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-top: 4px solid var(--color-primary);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.07);
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 38px -10px rgba(79, 70, 229, 0.16);
+      border-color: #818CF8;
+      border-top-color: var(--color-primary);
+    }
+
+    .member-card.accent-cyan {
+      border-top-color: var(--color-accent);
+    }
+
+    .member-card.accent-emerald {
+      border-top-color: var(--color-success);
+    }
+
+    /* Member portrait and monogram fallback */
+    .member-photo-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%);
+      margin-bottom: 1.35rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .member-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: none;
+      transition: transform 0.4s ease;
+    }
+
+    .member-card:hover .member-photo {
+      transform: scale(1.04);
+    }
+
+    .member-avatar-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 25%, rgba(79, 70, 229, 0.28), transparent 65%),
+        linear-gradient(145deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .avatar-initials {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      color: #FFFFFF;
+      font-family: var(--font-heading);
+      font-size: 1.65rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+      margin-bottom: 0.85rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .avatar-domain-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #CBD5E1;
+      letter-spacing: 0.03em;
+    }
+
+    /* Member metadata and descriptions */
+    .member-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .member-domain-tag {
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+
+    .member-name {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .member-role {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 0.9rem;
+    }
+
+    .member-bio {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.35rem;
+    }
+
+    /* Module ownership summary */
+    .member-module-box {
+      margin-top: auto;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .member-module-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.55rem;
+    }
+
+    .member-focus-list {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .member-focus-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .member-focus-list svg {
+      color: var(--color-success);
+      flex-shrink: 0;
+    }
+
+    /* Platform Integration Matrix */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .workflow-card {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .workflow-step-num {
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 0.85rem;
+      width: fit-content;
+    }
+
+    .workflow-owner {
+      margin-top: 1.1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* Call-to-Action Banner */
+    .cta-banner {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: var(--text-on-dark);
+      border-radius: var(--radius-xl);
+      padding: clamp(2rem, 4vw, 3.25rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .reveal-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 992px) {
+      .team-pillars-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Site Navigation -->
+    <header class="navbar">
+      <div class="container navbar-container">
+        <a href="index.html" class="brand-logo">
+          <img src="images/main/logo.png" alt="Thaari Solutions Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <span class="brand-logo-mark" style="display: none;">T</span>
+          <span>Thaari Solutions</span>
+        </a>
+
+        <nav>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="features.html" class="nav-link">Platform Features</a></li>
+            <li><a href="tour.html" class="nav-link">Product Tour</a></li>
+            <li><a href="team.html" class="nav-link">Our Team</a></li>
+            <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="contact.html" class="btn btn-primary">Request a Demo</a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+      <!-- Hero Section -->
+      <section class="team-hero">
+        <div class="container">
+          <div class="team-hero-header">
+            <div class="hero-announcement">
+              <span class="hero-announcement-tag">Our Team</span>
+              <span>5 Dedicated Developers &amp; Designers &bull; One Unified Retail Platform</span>
+            </div>
+
+            <h1 class="heading-xl" style="margin-bottom: 1.15rem;">
+              The Creators Behind <span class="text-gradient">Thaari Solutions</span>
+            </h1>
+            <p class="text-lead" style="margin-inline: auto;">
+              We are a five member software engineering and design team building a unified POS, multi branch inventory, and AI driven e-commerce system tailored for modern clothing retailers.
+            </p>
+          </div>
+
+          <!-- Engineering Principles -->
+          <div class="team-pillars-bar">
+            <div class="team-pillar-item">
+              <div class="team-pillar-title">1. Dedicated Module Ownership</div>
+              <p class="team-pillar-desc">
+                Operating within a centrally designed system architecture, the deep technical design and individual development of every core module from POS billing to AI photo search is driven independently by a dedicated specialist.
+              </p>
+            </div>
+
+            <div class="team-pillar-item accent-cyan">
+              <div class="team-pillar-title">2. Grounded in Real Retail Needs</div>
+              <p class="team-pillar-desc">
+                Our platform architecture is planned around real interviews and operational challenges faced by multi-branch apparel stores.
+              </p>
+            </div>
+
+            <div class="team-pillar-item accent-emerald">
+              <div class="team-pillar-title">3. Unified Design System</div>
+              <p class="team-pillar-desc">
+                All five modules are architected to share one central database and a consistent, easy to use interface for staff and shoppers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Members Section -->
+      <section class="section">
+        <div class="container">
+          <div class="section-header reveal-item">
+            <span class="badge">Platform Developers &amp; Designers</span>
+            <h2 class="heading-lg">Meet the Specialists Behind Each Platform Module</h2>
+            <p class="text-lead">
+              Each member of our team takes dedicated ownership of designing and developing a critical pillar of the Thaari Solutions ecosystem.
+            </p>
+          </div>
+
+          <div class="team-grid reveal-item">
+
+            <!-- Maneth Amarasinghe -->
+            <article class="member-card">
+              <div class="member-photo-wrapper">
+                <img
+                  src="images/team/maneth.png"
+                  alt="Maneth Amarasinghe - Database & AI Visual Search Developer"
+                  class="member-photo"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div class="member-avatar-fallback">
+                  <div class="avatar-initials">MA</div>
+                  <span class="avatar-domain-label">AI Search &amp; Central Database</span>
+                </div>
+              </div>
+
+              <div class="member-badge-row">
+                <span class="member-domain-tag">AI &amp; Database Engineering</span>
+              </div>
+
+              <h3 class="member-name">Maneth Amarasinghe</h3>
+              <p class="member-role">Database &amp; AI Visual Search Developer</p>
+              <p class="member-bio">
+                Designs the centralized multi branch database schema and engineers the privacy first AI outfit photo search and missed search demand analytics pipeline.
+              </p>
+
+              <div class="member-module-box">
+                <div class="member-module-title">Dedicated Module Scope</div>
+                <ul class="member-focus-list">
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>AI Outfit Photo Search Engine</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Centralized Multi Branch Database</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Missed Search Buying Insights</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <!-- Kamoda Lakshan -->
+            <article class="member-card accent-cyan">
+              <div class="member-photo-wrapper">
+                <img
+                  src="images/team/kamoda.png"
+                  alt="Kamoda Lakshan - System Architecture Designer & Core Backend Developer"
+                  class="member-photo"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div class="member-avatar-fallback">
+                  <div class="avatar-initials">KL</div>
+                  <span class="avatar-domain-label">System Architecture &amp; Sync</span>
+                </div>
+              </div>
+
+              <div class="member-badge-row">
+                <span class="member-domain-tag">System Architecture &amp; Backend</span>
+              </div>
+
+              <h3 class="member-name">Kamoda Lakshan</h3>
+              <p class="member-role">System Architecture Designer &amp; Core Backend Developer</p>
+              <p class="member-bio">
+                Designs the end to end platform architecture, role based security, and real time stock synchronization logic connecting branch counters with the online store.
+              </p>
+
+              <div class="member-module-box">
+                <div class="member-module-title">Dedicated Module Scope</div>
+                <ul class="member-focus-list">
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Real Time Multi Branch Stock Locking</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Click and Try Hold Expiry Logic</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Role Based Security &amp; Core APIs</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <!-- Hasaka Perera -->
+            <article class="member-card accent-emerald">
+              <div class="member-photo-wrapper">
+                <img
+                  src="images/team/hasaka.png"
+                  alt="Hasaka Perera - 3D Graphics Engine & Smart Outfit AI Developer"
+                  class="member-photo"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div class="member-avatar-fallback">
+                  <div class="avatar-initials">HP</div>
+                  <span class="avatar-domain-label">3D Fitting &amp; Outfit AI</span>
+                </div>
+              </div>
+
+              <div class="member-badge-row">
+                <span class="member-domain-tag">3D Graphics &amp; Styling AI</span>
+              </div>
+
+              <h3 class="member-name">Hasaka Perera</h3>
+              <p class="member-role">3D Graphics Engine &amp; Smart Outfit AI Developer</p>
+              <p class="member-bio">
+                Develops the interactive 360 degree 3D virtual fitting studio, customizable body measurement mannequin, and two-way outfit styling recommendation engine.
+              </p>
+
+              <div class="member-module-box">
+                <div class="member-module-title">Dedicated Module Scope</div>
+                <ul class="member-focus-list">
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Interactive 360&deg; 3D Mannequin Studio</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Body-Measurement Morphing Controls</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Two-Way Complete Outfit Matching</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <!-- Upeksha Vidushi -->
+            <article class="member-card">
+              <div class="member-photo-wrapper">
+                <img
+                  src="images/team/upeksha.png"
+                  alt="Upeksha Vidushi - E-Commerce Storefront & Payment Integration Developer"
+                  class="member-photo"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div class="member-avatar-fallback">
+                  <div class="avatar-initials">UV</div>
+                  <span class="avatar-domain-label">E-Commerce &amp; Checkout</span>
+                </div>
+              </div>
+
+              <div class="member-badge-row">
+                <span class="member-domain-tag">E-Commerce &amp; Payments</span>
+              </div>
+
+              <h3 class="member-name">Upeksha Vidushi</h3>
+              <p class="member-role">E-Commerce Storefront &amp; Payment Integration Developer</p>
+              <p class="member-bio">
+                Designs and develops the customer online shopping portal, personalized garment size calculator, Click and Try reservation workflow, and payment checkout.
+              </p>
+
+              <div class="member-module-box">
+                <div class="member-module-title">Dedicated Module Scope</div>
+                <ul class="member-focus-list">
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Customer E-Commerce Storefront</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Personalized Garment Size Calculator</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Online Checkout &amp; Branch Reservations</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <!-- Janith Chandima -->
+            <article class="member-card accent-cyan">
+              <div class="member-photo-wrapper">
+                <img
+                  src="images/team/janith.png"
+                  alt="Janith Chandima - POS Systems, UI/UX Designer & Back-Office Developer"
+                  class="member-photo"
+                  onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                  onerror="this.style.display='none';"
+                />
+                <div class="member-avatar-fallback">
+                  <div class="avatar-initials">JC</div>
+                  <span class="avatar-domain-label">POS &amp; Back-Office UI/UX</span>
+                </div>
+              </div>
+
+              <div class="member-badge-row">
+                <span class="member-domain-tag">POS &amp; UI/UX Design</span>
+              </div>
+
+              <h3 class="member-name">Janith Chandima</h3>
+              <p class="member-role">POS Systems, UI/UX Designer &amp; Back-Office Developer</p>
+              <p class="member-bio">
+                Crafts the unified UI/UX design system and develops the high speed cashier POS billing counter, in store kiosk interface, and owner back office dashboards.
+              </p>
+
+              <div class="member-module-box">
+                <div class="member-module-title">Dedicated Module Scope</div>
+                <ul class="member-focus-list">
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Cashier POS Counter &amp; Loyalty Lookup</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Owner &amp; Manager Back Office Portal</span>
+                  </li>
+                  <li>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Unified Design System &amp; Store Kiosk</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Platform Integration Section -->
+      <section class="section section-subtle">
+        <div class="container">
+          <div class="section-header reveal-item">
+            <span class="badge">Connected Engineering</span>
+            <h2 class="heading-lg">How Our Individual Work Connects Into One Product</h2>
+            <p class="text-lead">
+              Every service highlighted on our Home page is independently engineered to connect into a single cloud platform without data silos.
+            </p>
+          </div>
+
+          <div class="workflow-grid reveal-item">
+            <div class="workflow-card">
+              <div>
+                <span class="workflow-step-num">Pillar 01 &bull; POS</span>
+                <h3 class="heading-md" style="margin-bottom: 0.5rem;">Multi Branch POS</h3>
+                <p style="font-size: 0.88rem;">
+                  Engineered for rapid counter checkout, phone loyalty redemption, and sister branch stock checks.
+                </p>
+              </div>
+              <div class="workflow-owner">Designed &amp; Built by Janith &amp; Kamoda</div>
+            </div>
+
+            <div class="workflow-card">
+              <div>
+                <span class="workflow-step-num">Pillar 02 &bull; Stock</span>
+                <h3 class="heading-md" style="margin-bottom: 0.5rem;">Central Inventory</h3>
+                <p style="font-size: 0.88rem;">
+                  Real time stock synchronization across all branches, online orders, and fitting room reservations.
+                </p>
+              </div>
+              <div class="workflow-owner">Designed &amp; Built by Maneth &amp; Kamoda</div>
+            </div>
+
+            <div class="workflow-card">
+              <div>
+                <span class="workflow-step-num">Pillar 03 &bull; Web</span>
+                <h3 class="heading-md" style="margin-bottom: 0.5rem;">E-Commerce Store</h3>
+                <p style="font-size: 0.88rem;">
+                  Full online catalog with live branch availability, size calculation, delivery, and Click and Try holds.
+                </p>
+              </div>
+              <div class="workflow-owner">Designed &amp; Built by Upeksha &amp; Janith</div>
+            </div>
+
+            <div class="workflow-card">
+              <div>
+                <span class="workflow-step-num">Pillar 04 &bull; AI &amp; 3D</span>
+                <h3 class="heading-md" style="margin-bottom: 0.5rem;">AI &amp; 3D Shopping</h3>
+                <p style="font-size: 0.88rem;">
+                  Visual outfit photo search paired with an interactive 3D mannequin and complete outfit styling.
+                </p>
+              </div>
+              <div class="workflow-owner">Designed &amp; Built by Maneth &amp; Hasaka</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call-to-Action Section -->
+      <section class="section">
+        <div class="container">
+          <div class="cta-banner reveal-item">
+            <div style="max-width: 640px;">
+              <span class="badge badge-live" style="background: rgba(255, 255, 255, 0.12); color: #FFFFFF;">
+                See Our Platform in Action
+              </span>
+              <h2 class="heading-lg" style="color: #FFFFFF; margin-bottom: 0.75rem;">
+                Explore Our Interactive Platform Prototype
+              </h2>
+              <p style="color: #CBD5E1; font-size: 1.02rem;">
+                Take a guided tour through our interactive prototype or reach out to our team to discuss how Thaari Solutions can unify your clothing store network.
+              </p>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; flex-shrink: 0;">
+              <a href="tour.html" class="btn btn-primary">Launch Product Tour</a>
+              <a href="contact.html" class="btn btn-outline" style="background: rgba(255,255,255,0.08); color: #FFFFFF; border-color: #64748B;">
+                Contact Our Team
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+              <img src="images/main/logo.png" alt="Thaari Solutions Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <span class="brand-logo-mark" style="display: none;">T</span>
+              <span>Thaari Solutions</span>
+            </a>
+            <p style="max-width: 38ch; font-size: 0.95rem;">
+              The unified omnichannel retail, AI visual search, and 3D smart fitting platform engineered for multi-branch clothing stores.
+            </p>
+
+            <div class="social-links">
+              <a href="#" data-social="linkedin" target="_blank" rel="noopener" class="social-icon-btn" aria-label="LinkedIn" title="LinkedIn">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="youtube" target="_blank" rel="noopener" class="social-icon-btn" aria-label="YouTube" title="YouTube">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="facebook" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Facebook" title="Facebook">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="whatsapp" target="_blank" rel="noopener" class="social-icon-btn" aria-label="WhatsApp" title="WhatsApp">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7 8.5 7 9.71C7 10.93 7.89 12.1 8 12.27C8.14 12.44 9.76 14.94 12.25 16C12.84 16.27 13.3 16.42 13.66 16.53C14.25 16.72 14.79 16.69 15.22 16.63C15.7 16.56 16.68 16.03 16.89 15.45C17.1 14.87 17.1 14.38 17.04 14.27C16.97 14.17 16.81 14.11 16.56 14C16.31 13.86 15.09 13.26 14.87 13.18C14.64 13.1 14.5 13.06 14.31 13.3C14.15 13.55 13.67 14.11 13.53 14.27C13.38 14.44 13.24 14.46 13 14.34C12.74 14.21 11.94 13.95 11 13.11C10.26 12.45 9.77 11.64 9.62 11.39C9.5 11.15 9.61 11 9.73 10.89C9.84 10.78 10 10.6 10.1 10.45C10.23 10.31 10.27 10.2 10.35 10.04C10.43 9.87 10.39 9.73 10.33 9.61C10.27 9.5 9.77 8.26 9.56 7.77C9.36 7.29 9.16 7.35 9 7.34C8.86 7.34 8.7 7.33 8.53 7.33Z"/>
+                </svg>
+              </a>
+              <a href="#" data-social="email" class="social-icon-btn" aria-label="Email Us" title="Email Us">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="features.html">Platform Features</a></li>
+              <li><a href="tour.html">Product Tour</a></li>
+              <li><a href="team.html">Our Team</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Direct Contact</h4>
+            <ul class="footer-links" style="font-size: 0.92rem;">
+              <li><a href="#" data-social="email" id="footerEmailText">Email Us</a></li>
+              <li><a href="#" data-social="whatsapp" target="_blank" rel="noopener" id="footerPhoneText">WhatsApp Us</a></li>
+              <li id="footerLocationText">Location</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Thaari Solutions. All rights reserved.</span>
+          <span>Pilot Validation Partner: Jenitas Exclusive Brands</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="constants.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Page-specific scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize scroll reveal animations
+      const revealEls = document.querySelectorAll(".reveal-item");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+
+        revealEls.forEach(el => observer.observe(el));
+      } else {
+        revealEls.forEach(el => el.classList.add("visible"));
+      }
+    });
+  </script>
+</body>
+</html>
