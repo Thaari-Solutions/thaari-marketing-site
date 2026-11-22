@@ -547,8 +547,38 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 768px) {
+  /* Navbar: tighter spacing so logo + button + hamburger fit in one row */
+  .navbar-container {
+    gap: 0.5rem;
+  }
+
+  .navbar .brand-logo {
+    font-size: 1rem;
+    white-space: nowrap;
+    min-width: 0;
+    flex-shrink: 1;
+    gap: 0.5rem;
+  }
+
+  .navbar .brand-logo img {
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .nav-actions .btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
   .mobile-menu-btn {
     display: flex;
+    flex-shrink: 0;
   }
 
   .nav-links {
@@ -558,6 +588,7 @@ h1, h2, h3, h4 {
   .nav-links.mobile-open {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     position: absolute;
     top: var(--nav-height);
     left: 0;
@@ -577,12 +608,22 @@ h1, h2, h3, h4 {
   .figma-iframe-container {
     min-height: 420px;
   }
-  
-  .navbar .brand-logo {
-    font-size: 1rem;
+}
+
+/* Small phones: logo image already contains the brand name, so hide the duplicate text */
+@media (max-width: 520px) {
+  .navbar .brand-logo > span:last-child {
+    display: none;
   }
 
   .navbar .brand-logo img {
-    height: 44px;
+    height: 46px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-actions .btn {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.75rem;
   }
 }
