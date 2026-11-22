@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -157,19 +157,42 @@
         0 20px 40px -14px rgba(15, 23, 42, 0.3);
     }
 
-    .tour-browser-frame:fullscreen {
+    .tour-browser-frame:fullscreen,
+    .tour-browser-frame.pseudo-fullscreen {
       border-radius: 0;
       border: 0;
       box-shadow: none;
       display: flex;
       flex-direction: column;
       background-color: #0F172A;
+      transform: none !important;
     }
 
-    .tour-browser-frame:fullscreen .tour-iframe-stage {
+    .tour-browser-frame.pseudo-fullscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0;
+    }
+
+    .tour-browser-frame:fullscreen .tour-iframe-stage,
+    .tour-browser-frame.pseudo-fullscreen .tour-iframe-stage {
       flex: 1;
       height: 100%;
+      min-height: 0;
       aspect-ratio: auto;
+    }
+
+    .tour-browser-frame:fullscreen .browser-ctrl-label,
+    .tour-browser-frame.pseudo-fullscreen .browser-ctrl-label {
+      display: inline;
+    }
+
+    body.proto-fullscreen-lock {
+      overflow: hidden;
     }
 
     .tour-browser-bar {
@@ -1091,19 +1114,19 @@
             </div>
           </div>
 
-          <!-- Mobile prototype launcher -->
+          <!-- Mobile prototype launcher (in-site only) -->
           <div class="mobile-proto-card mobile-visible reveal" id="mobileProtoCard">
             <div class="mobile-proto-media">
               <img src="images/tour/prototype-cover.png" alt="Thaari Solutions Interactive Prototype Preview" onerror="this.onerror=null; this.src='images/tour/owner-dashboard.png';" />
             </div>
             <div class="mobile-proto-body">
-              <span class="badge badge-live" style="background: rgba(16, 185, 129, 0.16); color: #6EE7B7;">Best Viewed Full Screen</span>
-              <h3 class="heading-md">Interactive Figma Prototype</h3>
-              <p>For the smoothest mobile experience, open the full interactive walkthrough in a dedicated full-screen tab, or preview it inline below.</p>
+              <span class="badge badge-live" style="background: rgba(16, 185, 129, 0.16); color: #6EE7B7;">In-App Experience</span>
+              <h3 class="heading-md">Interactive Platform Prototype</h3>
+              <p>Launch the full-screen interactive walkthrough right inside our site, or preview it inline below.</p>
               <div class="mobile-proto-actions">
-                <a href="#" id="mobileOpenFigmaBtn" target="_blank" rel="noopener" class="btn btn-primary" style="width: 100%;">
-                  Open Full Interactive Prototype
-                </a>
+                <button type="button" id="mobileFullscreenProtoBtn" class="btn btn-primary" style="width: 100%;">
+                  Launch Full-Screen Tour
+                </button>
                 <button type="button" id="showInlineProtoBtn" class="btn btn-outline" style="width: 100%; background: transparent; color: #E2E8F0; border-color: #475569;">
                   Load Embedded Preview Here
                 </button>
@@ -1111,7 +1134,7 @@
             </div>
           </div>
 
-          <!-- Desktop prototype frame -->
+          <!-- Desktop & In-Site Fullscreen prototype frame -->
           <div class="tour-browser-frame mobile-hidden reveal" id="tourBrowserFrame">
             <div class="tour-browser-bar">
               <div class="browser-dots" aria-hidden="true">
@@ -1140,16 +1163,8 @@
                     <line x1="21" y1="3" x2="14" y2="10"></line>
                     <line x1="3" y1="21" x2="10" y2="14"></line>
                   </svg>
-                  <span class="browser-ctrl-label">Full Screen</span>
+                  <span class="browser-ctrl-label" id="fullscreenBtnLabel">Full Screen</span>
                 </button>
-                <a href="#" class="browser-ctrl-btn" id="externalFigmaLink" target="_blank" rel="noopener" title="Open in New Tab">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                  <span class="browser-ctrl-label">Open Tab</span>
-                </a>
               </div>
             </div>
 
@@ -1158,22 +1173,18 @@
               <div class="stage-loader" id="stageLoader">
                 <div class="loader-ring"></div>
                 <span style="font-weight: 600; font-size: 0.95rem;">Loading Interactive Prototype...</span>
-                <span style="font-size: 0.82rem; color: #94A3B8;">Connecting to Thaari Solutions Figma Workspace</span>
+                <span style="font-size: 0.82rem; color: #94A3B8;">Connecting to Thaari Solutions Interactive Workspace</span>
               </div>
 
               <!-- Unconfigured prototype fallback -->
               <div class="stage-placeholder" id="stagePlaceholder">
                 <div class="stage-placeholder-icon">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"></path>
-                    <path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"></path>
-                    <path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"></path>
-                    <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"></path>
-                    <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"></path>
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
                   </svg>
                 </div>
-                <h3 class="heading-md">Interactive Prototype Ready to Connect</h3>
-                <p>Paste your public Figma prototype URL inside <strong style="color: #E2E8F0;">constants.js</strong> to render the live clickable experience directly in this stage.</p>
+                <h3 class="heading-md">Interactive Prototype Coming Soon</h3>
+                <p>Configure the prototype embed link in <strong style="color: #E2E8F0;">constants.js</strong> to render the clickable walkthrough directly in this stage.</p>
                 <span class="stage-code-pill">SITE_CONFIG.links.figmaEmbed</span>
               </div>
 
@@ -1188,10 +1199,11 @@
                 <span class="interact-sub-hint">Live clickable prototype &bull; No login required</span>
               </div>
 
-              <!-- Prototype embed frame -->
+              <!-- Prototype embed frame (popups & external navigation blocked) -->
               <iframe
                 id="figmaPrototypeIframe"
-                title="Thaari Solutions Interactive Figma Prototype"
+                title="Thaari Solutions Interactive Prototype"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock"
                 allowfullscreen
                 loading="lazy">
               </iframe>
@@ -1199,7 +1211,7 @@
           </div>
 
           <div class="stage-caption-bar reveal">
-            <span>Tip: Press <span class="stage-kbd">R</span> inside the Figma frame at any time to restart from the beginning.</span>
+            <span>Tip: Press <span class="stage-kbd">R</span> inside the prototype at any time to restart, or use <strong>Full Screen</strong> for the best view.</span>
             <span>Need a guided walkthrough? <a href="contact.html" style="color: var(--color-primary); font-weight: 600;">Book a live team session &rarr;</a></span>
           </div>
         </div>
@@ -1784,17 +1796,17 @@
   <!-- Page-specific scripts -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Initialize Figma prototype stage
+      // Initialize Interactive Prototype Stage (In-Site Only)
       const iframe = document.getElementById("figmaPrototypeIframe");
       const loader = document.getElementById("stageLoader");
       const placeholder = document.getElementById("stagePlaceholder");
       const interactOverlay = document.getElementById("stageInteractOverlay");
-      const externalLink = document.getElementById("externalFigmaLink");
-      const mobileOpenBtn = document.getElementById("mobileOpenFigmaBtn");
       const reloadBtn = document.getElementById("reloadProtoBtn");
       const fullscreenBtn = document.getElementById("fullscreenProtoBtn");
+      const fullscreenBtnLabel = document.getElementById("fullscreenBtnLabel");
       const browserFrame = document.getElementById("tourBrowserFrame");
       const mobileCard = document.getElementById("mobileProtoCard");
+      const mobileFullscreenBtn = document.getElementById("mobileFullscreenProtoBtn");
       const showInlineBtn = document.getElementById("showInlineProtoBtn");
 
       // Dismiss interactive overlay on click or keyboard activation
@@ -1809,7 +1821,7 @@
         });
       }
 
-      function parseFigmaUrl(rawValue) {
+      function parsePrototypeUrl(rawValue) {
         if (!rawValue || typeof rawValue !== "string") return null;
         let trimmed = rawValue.trim();
 
@@ -1824,32 +1836,37 @@
           return null;
         }
 
-        // Use existing Figma embed URL directly
-        if (trimmed.includes("embed.figma.com") || trimmed.includes("figma.com/embed")) {
-          return { embedUrl: trimmed, directUrl: trimmed };
+        // Append footer=false & hide-ui=1 on modern embed.figma.com URLs
+        if (trimmed.includes("embed.figma.com")) {
+          const sep = trimmed.includes("?") ? "&" : "?";
+          let url = trimmed;
+          if (!url.includes("footer=")) url += `${sep}footer=false`;
+          if (!url.includes("hide-ui=")) url += "&hide-ui=1";
+          return url;
+        }
+
+        if (trimmed.includes("figma.com/embed")) {
+          return trimmed;
         }
 
         // Normalize standard Figma prototype URL for iframe embedding
-        const hasQuery = trimmed.includes("?");
+        const sep = trimmed.includes("?") ? "&" : "?";
         const protoWithParams = trimmed.includes("hide-ui")
           ? trimmed
-          : `${trimmed}${hasQuery ? "&" : "?"}scaling=scale-down-width&hide-ui=1`;
+          : `${trimmed}${sep}scaling=scale-down-width&hide-ui=1&footer=false`;
 
-        const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(protoWithParams)}`;
-        return { embedUrl, directUrl: trimmed };
+        return `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(protoWithParams)}`;
       }
 
-      const rawFigmaLink =
+      const rawProtoLink =
         typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.links
           ? SITE_CONFIG.links.figmaEmbed
           : "";
 
-      const figmaData = parseFigmaUrl(rawFigmaLink);
+      const embedUrl = parsePrototypeUrl(rawProtoLink);
 
-      if (figmaData && iframe) {
-        iframe.src = figmaData.embedUrl;
-        if (externalLink) externalLink.href = figmaData.directUrl;
-        if (mobileOpenBtn) mobileOpenBtn.href = figmaData.directUrl;
+      if (embedUrl && iframe) {
+        iframe.src = embedUrl;
 
         const hideLoader = () => {
           if (loader) loader.classList.add("hidden");
@@ -1862,40 +1879,108 @@
         if (loader) loader.classList.add("hidden");
         if (interactOverlay) interactOverlay.classList.add("dismissed");
         if (placeholder) placeholder.classList.add("visible");
-        if (externalLink) externalLink.style.display = "none";
-        if (mobileOpenBtn) {
-          mobileOpenBtn.textContent = "Prototype Link Coming Soon";
-          mobileOpenBtn.style.pointerEvents = "none";
-          mobileOpenBtn.style.opacity = "0.7";
+        if (mobileFullscreenBtn) {
+          mobileFullscreenBtn.textContent = "Prototype Coming Soon";
+          mobileFullscreenBtn.disabled = true;
+          mobileFullscreenBtn.style.opacity = "0.7";
         }
       }
 
+      // Fullscreen helpers (Native API + iOS/Mobile CSS fallback)
+      const isNativeFullscreen = () =>
+        Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+
+      const isPseudoFullscreen = () =>
+        Boolean(browserFrame && browserFrame.classList.contains("pseudo-fullscreen"));
+
+      const updateFullscreenUI = () => {
+        const active = isNativeFullscreen() || isPseudoFullscreen();
+        if (fullscreenBtnLabel) {
+          fullscreenBtnLabel.textContent = active ? "Exit Full Screen" : "Full Screen";
+        }
+        if (fullscreenBtn) {
+          fullscreenBtn.title = active ? "Exit Full Screen" : "Toggle Full Screen";
+        }
+      };
+
+      const enterFullscreen = async () => {
+        if (!browserFrame) return;
+        if (interactOverlay) interactOverlay.classList.add("dismissed");
+
+        try {
+          if (browserFrame.requestFullscreen) {
+            await browserFrame.requestFullscreen();
+            updateFullscreenUI();
+            return;
+          } else if (browserFrame.webkitRequestFullscreen) {
+            browserFrame.webkitRequestFullscreen();
+            updateFullscreenUI();
+            return;
+          }
+        } catch (err) {
+          // Fall back to CSS pseudo-fullscreen when native API is unsupported (e.g., iOS Safari)
+        }
+
+        browserFrame.classList.add("pseudo-fullscreen");
+        document.body.classList.add("proto-fullscreen-lock");
+        updateFullscreenUI();
+      };
+
+      const exitFullscreen = async () => {
+        if (isNativeFullscreen()) {
+          try {
+            if (document.exitFullscreen) {
+              await document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            }
+          } catch (err) {
+            // Ignore exit error
+          }
+        }
+
+        if (browserFrame) browserFrame.classList.remove("pseudo-fullscreen");
+        document.body.classList.remove("proto-fullscreen-lock");
+        updateFullscreenUI();
+      };
+
       // Reload prototype frame
-      if (reloadBtn && iframe && figmaData) {
+      if (reloadBtn && iframe && embedUrl) {
         reloadBtn.addEventListener("click", () => {
           if (loader) loader.classList.remove("hidden");
           if (interactOverlay) interactOverlay.classList.add("dismissed");
-          iframe.src = figmaData.embedUrl;
+          iframe.src = embedUrl;
         });
       }
 
       // Toggle fullscreen presentation mode
       if (fullscreenBtn && browserFrame) {
         fullscreenBtn.addEventListener("click", () => {
-          if (interactOverlay) interactOverlay.classList.add("dismissed");
-          if (!document.fullscreenElement) {
-            if (browserFrame.requestFullscreen) {
-              browserFrame.requestFullscreen();
-            } else if (browserFrame.webkitRequestFullscreen) {
-              browserFrame.webkitRequestFullscreen();
-            }
-          } else if (document.exitFullscreen) {
-            document.exitFullscreen();
+          if (isNativeFullscreen() || isPseudoFullscreen()) {
+            exitFullscreen();
+          } else {
+            enterFullscreen();
           }
         });
       }
 
-      // Reveal inline prototype frame on mobile devices
+      document.addEventListener("fullscreenchange", updateFullscreenUI);
+      document.addEventListener("webkitfullscreenchange", updateFullscreenUI);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && isPseudoFullscreen()) {
+          exitFullscreen();
+        }
+      });
+
+      // Mobile buttons: keep experience 100% inside the site
+      if (mobileFullscreenBtn && browserFrame && mobileCard && embedUrl) {
+        mobileFullscreenBtn.addEventListener("click", () => {
+          browserFrame.classList.remove("mobile-hidden");
+          mobileCard.classList.remove("mobile-visible");
+          enterFullscreen();
+        });
+      }
+
       if (showInlineBtn && browserFrame && mobileCard) {
         showInlineBtn.addEventListener("click", () => {
           browserFrame.classList.remove("mobile-hidden");
